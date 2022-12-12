@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/v1/todos")
+@RequestMapping("/")
 @RequiredArgsConstructor
+
 public class TodoController {
 
     private final TodoService todoService;
     private final TodoMapper mapper;
+
 
     @PostMapping
     public ResponseEntity postTodo(@RequestBody TodoDto.Post requestBody) {
@@ -22,21 +25,21 @@ public class TodoController {
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.todoToTodoResponseDto(response)), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{todo-id}")
+    @GetMapping("{todo-id}")
     public ResponseEntity getTodo(@PathVariable("todo-id")  int todoId) {
         Todo response = todoService.findTodo(todoId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.todoToTodoResponseDto(response)), HttpStatus.OK);
     }
 
-    @PatchMapping("/{todo-id}")
+    @PatchMapping("{todo-id}")
     public ResponseEntity patchTodo(@PathVariable("todo-id") int todoId,
                                     @RequestBody TodoDto.Patch requestBody) {
         requestBody.setId(todoId);
         Todo response = todoService.updateTodo(mapper.todoPatchDtoToTodos(requestBody));
         return new ResponseEntity<>(new SingleResponseDto<>(mapper.todoToTodoResponseDto(response)),HttpStatus.OK);
     }
-    @DeleteMapping("/{todo-id}")
+    @DeleteMapping("{todo-id}")
     public ResponseEntity deleteTodo(@PathVariable("todo-id") int todoId) {
         todoService.deleteTodo(todoId);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
