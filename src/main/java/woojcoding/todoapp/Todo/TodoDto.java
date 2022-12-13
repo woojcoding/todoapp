@@ -8,7 +8,9 @@ public class TodoDto {
 
 
     @Getter
+    @AllArgsConstructor
     public static class Post {
+        private int id;
         private String title;
         private int todoOrder;
         private Boolean completed;

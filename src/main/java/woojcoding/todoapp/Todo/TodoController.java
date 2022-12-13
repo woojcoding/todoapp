@@ -35,14 +35,14 @@ public class TodoController {
     @PatchMapping("{todo-id}")
     public ResponseEntity patchTodo(@PathVariable("todo-id") int todoId,
                                     @RequestBody TodoDto.Patch requestBody) {
-        requestBody.setId(todoId);
-        Todo response = todoService.updateTodo(mapper.todoPatchDtoToTodos(requestBody));
+
+        Todo response = todoService.updateTodo(todoId,mapper.todoPatchDtoToTodos(requestBody));
         return new ResponseEntity<>(mapper.todoToTodoResponseDto(response),HttpStatus.OK);
     }
     @DeleteMapping("{todo-id}")
     public ResponseEntity deleteTodo(@PathVariable("todo-id") int todoId) {
-        todoService.deleteTodo(todoId);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        this.todoService.deleteTodo(todoId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping
     public ResponseEntity getTodos() {

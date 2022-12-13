@@ -25,8 +25,8 @@ public class TodoService {
         return findTodo;
     }
 
-    public Todo updateTodo(Todo todo) {
-        Todo findTodo = findVerifiedTodo(todo.getId());
+    public Todo updateTodo(int todoId,Todo todo) {
+        Todo findTodo = findVerifiedTodo(todoId);
 
         Optional.ofNullable(todo.getTitle())
                 .ifPresent(title -> findTodo.setTitle(title));
@@ -34,13 +34,12 @@ public class TodoService {
                 .ifPresent(order -> findTodo.setTodoOrder(order));
         Optional.ofNullable(todo.isCompleted())
                 .ifPresent(completed->findTodo.setCompleted(completed));
-
         return todoRepository.save(findTodo);
     }
 
     public void deleteTodo(int todoId) {
-        Todo findTodo = findVerifiedTodo(todoId);
-        todoRepository.delete(findTodo);
+       // Todo findTodo = findVerifiedTodo(todoId);
+        this.todoRepository.deleteById(todoId);
     }
     @Transactional(readOnly = true)
     public Todo findVerifiedTodo(int todoId) {
